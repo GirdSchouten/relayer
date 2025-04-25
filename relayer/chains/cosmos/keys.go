@@ -98,6 +98,8 @@ func (cc *CosmosProvider) KeyAddOrRestore(keyName string, coinType uint32, signi
 	switch signingAlgorithm {
 	case string(hd.Sr25519Type):
 		algo = sr25519.Sr25519
+	case "eth_secp256k1":
+		algo = keyring.SignatureAlgo(helios.EthSecp256k1)
 	default:
 		algo = hd.Secp256k1
 	}
@@ -116,6 +118,9 @@ func (cc *CosmosProvider) KeyAddOrRestore(keyName string, coinType uint32, signi
 		for _, codec := range cc.PCfg.ExtraCodecs {
 			if codec == "injective" {
 				algo = keyring.SignatureAlgo(injective.EthSecp256k1)
+			}
+			if codec == "helios" {
+				algo = keyring.SignatureAlgo(helios.EthSecp256k1)
 			}
 		}
 	}
